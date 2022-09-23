@@ -1,0 +1,155 @@
+syntax="proto3";
+
+import "google/protobuf/empty.proto";
+
+
+option go_package = "./pb";
+
+message Mapping {
+    string TemplateFieldName = 1;
+    string CustomerFieldName = 2;
+}
+
+message MapDetails {
+    uint32 Id = 1;
+    string CreatedAt = 2;
+    string UpdatedAt = 3;
+    string DeletedAt = 4;
+    string MapName = 5;
+    string MapDescription = 6;
+    string CategoryName = 7;
+    bool MapStatus = 8;
+    string CreatedBy = 9;
+    string UpdatedBy = 10;
+    repeated Mapping Mappings = 11;
+}
+
+message MapStatus {
+    bool MapStatus = 1;
+}
+
+message VinTemplateFields {
+    repeated string VinTemplateFields = 1;
+}
+
+message CustomerTemplateFields {
+    repeated string CustomerTemplateFields = 1;
+}
+
+message CreateMapRequest {
+    uint32 TemplateId = 1;
+    string MapName = 2;
+    string MapDescription = 3;
+    string CategoryName = 4;
+}
+
+message CreateMapResponse {
+    int32 Status = 1;
+    string Message = 2;
+    MapDetails Data = 3;
+}
+
+message GetMapDetailsByIDRequest {
+    uint32 Id = 1;
+}
+
+message GetMapDetailsByIdResponse {
+    int32 Status = 1;
+    string Message = 2;
+    MapDetails Data = 3;
+}
+
+message GetMapDetailsResponse {
+    int32 Status = 1;
+    string Message = 2;
+    repeated MapDetails Data = 3;
+} 
+
+message UpdateMapDetailsRequest {
+    uint32 Id = 1;
+    string MapName = 2;
+    string MapDescription = 3;
+    string CategoryName = 4;
+}
+
+message UpdateMapDetailsResponse {
+    int32 Status = 1;
+    string Message = 2;
+    MapDetails Data = 3;
+}
+
+message EnableDisableMapRequest {
+    uint32 Id = 1;
+}
+
+message EnableDisableMapResponse {
+    int32 Status = 1;
+    string Message = 2;
+    MapDetails Data = 3;
+}
+
+message GetPreFilledMappingsRequest {
+    repeated string VinTemplateFields = 1;
+    repeated string CustomerTemplateFields = 2;
+}
+
+message GetPreFilledMappingsResponse {
+    int32 Status = 1;
+    string Message = 2;
+    repeated Mapping Data = 3;
+}
+
+message GetVinTemplateHeadersRequest {
+    uint32 TemplateID = 1;
+}
+
+message GetVinTemplateHeadersResponse {
+    int32 Status = 1;
+    string Message = 2;
+    VinTemplateFields Data = 3;
+}
+
+message GetCustomerTemplateHeadersRequest {
+    bytes File = 1;
+}
+
+message GetCustomerTemplateHeadersResponse {
+    int32 Status = 1;
+    string Message = 2;
+    CustomerTemplateFields Data = 3;
+}
+
+message AddMappingsToMapRequest {
+    uint32 MapId = 1;
+    repeated Mapping Mappings = 2;
+}
+
+message AddMappingsToMapResponse {
+    int32 Status = 1;
+    string Message = 2;
+    MapDetails Data = 3;
+}
+
+message RemoveMappingFromMapRequest {
+    uint32 MapId = 1;
+    Mapping Mapping = 2;
+}
+
+message RemoveMappingFromMapResponse {
+    int32 Status = 1;
+    string Message = 2;
+    MapDetails Data = 3;
+}
+
+service FileToDBMapper {
+    rpc CreateMap(CreateMapRequest) returns (CreateMapResponse);
+    rpc GetMapDetailsByID(GetMapDetailsByIDRequest) returns (GetMapDetailsByIdResponse);
+    rpc GetMapDetails(google.protobuf.Empty) returns (GetMapDetailsResponse);
+    rpc UpdateMapDetails(UpdateMapDetailsRequest) returns (UpdateMapDetailsResponse);
+    rpc EnableDisableMap(EnableDisableMapRequest) returns (EnableDisableMapResponse);
+    rpc GetPreFilledMappings(GetPreFilledMappingsRequest) returns (GetPreFilledMappingsResponse);
+    rpc GetVinTemplateHeaders(GetVinTemplateHeadersRequest) returns (GetVinTemplateHeadersResponse);
+    rpc GetCustomerTemplateHeaders(GetCustomerTemplateHeadersRequest) returns (GetCustomerTemplateHeadersResponse);
+    rpc AddMappingsToMap(AddMappingsToMapRequest) returns (AddMappingsToMapResponse);
+    rpc RemoveMappingFromMap(RemoveMappingFromMapRequest) returns (RemoveMappingFromMapResponse);
+}
